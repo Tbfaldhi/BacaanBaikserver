@@ -1,13 +1,13 @@
 <template>  
 <div id='blogPost'> 
-    <h2>Add new Blog Post</h2>
+    <h2>Add new Book Review</h2>
     <form>
         <label>Book Title: </label>
         <input type="text" v-model='title' required/>
         <label>Book Review:</label>
-        <textarea v-model='content' ></textarea>
+        <textarea v-model='review' ></textarea>
         <br>
-        <button type="submit" class="btn btn-default" @click='addblog'>post blog</button>
+        <button type="submit" class="btn btn-default" @click='addbook'>post</button>
     </form>
        
         
@@ -20,13 +20,15 @@
     data() {
         return{
             title:'',
-            content:'',
+            review:'',
         }    
     },
   methods:{
-      addblog(){
-          var self = this
-        axios.post('http://localhost:3000/blogpost',{title:this.title,content:this.content})
+      addbook(){
+        let token = localStorage.getItem('token')
+        console.log(token);     
+        var self = this
+        axios.post('http://localhost:3000/bookpost',{title:this.title,content:this.review},{headers:token})
         .then(data=>{
           swal({
             title: "Success add",   
@@ -38,9 +40,6 @@
           
         })
        
-      },
-      articlelist(){
-          this.$router.push({ name: "article"})
       }
       
   },
